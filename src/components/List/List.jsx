@@ -5,16 +5,9 @@ export const List = ({
   searchRequest,
   sortFlow,
   addToShoppingCart,
+  setPhoneCardContent,
 }) => {
   const [phonesToShow, setPhonesToShow] = useState(phones);
-
-  function sortByType(a, b) {
-    if (typeof(a[sortFlow]) === 'number') {
-      return a[sortFlow] - b[sortFlow];
-    } else {
-      return a[sortFlow].toLowerCase() > b[sortFlow].toLowerCase() ? 1 : -1;
-    }
-  }
 
   useEffect(() => {
     setPhonesToShow(
@@ -25,14 +18,26 @@ export const List = ({
     )
   }, [phones, searchRequest, sortFlow]);
 
+  function sortByType(a, b) {
+    if (typeof(a[sortFlow]) === 'number') {
+      return a[sortFlow] - b[sortFlow];
+    } else {
+      return a[sortFlow].toLowerCase() > b[sortFlow].toLowerCase() ? 1 : -1;
+    }
+  };
+
   return (
     <ul className="phones">
       {phonesToShow.map(phone => (
-        <li 
+        <li
           className="thumbnail"
           key={phone.id}
         >
-          <a href={`#!/phones/${phone.id}`} className="thumb">
+          <a
+            href={`#!/phones/${phone.id}`}
+            className="thumb"
+            onClick={() => setPhoneCardContent(phone)}
+          >
             <img alt={phone.id} src={phone.imageUrl} />
           </a>
 
@@ -46,12 +51,17 @@ export const List = ({
             </a>
           </div>
 
-          <a href="#!/phones/motorola-xoom-with-wi-fi">{phone.name}</a>
+          <a
+            href="#!/phones/motorola-xoom-with-wi-fi"
+            onClick={() => setPhoneCardContent(phone)}
+          >
+            {phone.name}
+          </a>
           <p>
             {phone.snippet}
           </p>
         </li>
       ))}
     </ul>
-  )
+  );
 }

@@ -5,10 +5,10 @@ export const ShoppingCart = ({ content }) => {
   return (
     <ul>
       {content.map(phone => (
-        <li>
+        <li key={phone.id}>
           {phone.name}
         </li>
       ))}
     </ul>
-  )
+  );
 }
