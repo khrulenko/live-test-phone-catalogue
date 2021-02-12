@@ -59,9 +59,12 @@ function App() {
           <section>
 
             <p>Shopping Cart:</p>
-            <ShoppingCart 
-              content={shoppingCartContent}
-            />
+            {shoppingCartContent.length === 0
+              ? <p>-empty yet-</p>
+              : <ShoppingCart
+                content={shoppingCartContent}
+              />
+            }
             <button
               type='button'
               onClick={() => setShoppingCartContent([])}
