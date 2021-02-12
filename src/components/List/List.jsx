@@ -5,7 +5,7 @@ export const List = ({
   searchRequest,
   sortFlow,
   addToShoppingCart,
-  setPhoneCardContent,
+  setChosenPhone,
 }) => {
   const [phonesToShow, setPhonesToShow] = useState(phones);
 
@@ -36,7 +36,7 @@ export const List = ({
           <a
             href={`#!/phones/${phone.id}`}
             className="thumb"
-            onClick={() => setPhoneCardContent(phone)}
+            onClick={() => setChosenPhone(phone)}
           >
             <img alt={phone.id} src={phone.imageUrl} />
           </a>
@@ -53,7 +53,7 @@ export const List = ({
 
           <a
             href="#!/phones/motorola-xoom-with-wi-fi"
-            onClick={() => setPhoneCardContent(phone)}
+            onClick={() => setChosenPhone(phone)}
           >
             {phone.name}
           </a>

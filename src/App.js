@@ -3,6 +3,7 @@ import { getPhones } from './fetches';
 import { ShoppingCart } from './components/ShoppingCart/ShoppingCart';
 import { List } from './components/List/List';
 import { PhoneCard } from './components/PhoneCard/PhoneCard';
+import { getPhoneDetailes } from './fetches';
 
 import logo from './logo.svg';
 import './App.css';
@@ -12,7 +13,15 @@ function App() {
   const [searchRequest, setSearchRequest] = useState('');
   const [sortFlow, setSortFlow] = useState('name');
   const [shoppingCartContent, setShoppingCartContent] = useState([]);
-  const [phoneCardContent, setPhoneCardContent] = useState([]);
+  const [chosenPhone, setChosenPhone] = useState(null);
+  const [phoneDetailes, setPhoneDetailes] = useState(null);
+
+  useEffect(() => {
+    if (chosenPhone) {
+      getPhoneDetailes(chosenPhone.id)
+        .then(detailes => setPhoneDetailes(detailes))
+    }
+  }, [chosenPhone]);
 
   useEffect(() => {
     getPhones().then(phones => setPhones(phones))
@@ -62,7 +71,7 @@ function App() {
               ? <p>-empty yet-</p>
               : <ShoppingCart
                 content={shoppingCartContent}
-                setPhoneCardContent={setPhoneCardContent}
+                setChosenPhone={setChosenPhone}
               />
             }
             <button
@@ -76,20 +85,23 @@ function App() {
         </div>
 
         <div className="col-md-10">
-          {phoneCardContent.length === 0 
+          {!chosenPhone
             ? (
               <ul className="phones">
-              <List
-                phones={phones}
-                searchRequest={searchRequest}
-                sortFlow={sortFlow}
-                addToShoppingCart={addToShoppingCart}
-                setPhoneCardContent={setPhoneCardContent}
-              />
-            </ul>)
+                <List
+                  phones={phones}
+                  searchRequest={searchRequest}
+                  sortFlow={sortFlow}
+                  addToShoppingCart={addToShoppingCart}
+                  setChosenPhone={setChosenPhone}
+                />
+              </ul>
+            )
             : <PhoneCard
-              phoneCardContent={phoneCardContent}
-              setPhoneCardContent={setPhoneCardContent}
+              chosenPhone={chosenPhone}
+              setChosenPhone={setChosenPhone}
+              addToShoppingCart={addToShoppingCart}
+              phoneDetailes={phoneDetailes}
             />
           }
         </div>

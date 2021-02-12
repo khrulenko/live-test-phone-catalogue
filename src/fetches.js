@@ -5,3 +5,7 @@ export function getPhones() {
     .then(promise => promise.json());
 }
 
+export function getPhoneDetailes(phoneId) {
+  return fetch(`https://mate-academy.github.io/phone-catalogue-static/api/phones/${phoneId}.json`)
+    .then(promise => promise.json());
+}
