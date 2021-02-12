@@ -1,17 +1,23 @@
 import React, { useState, useEffect } from 'react';
 
-export const List = ({ phones, searchRequest }) => {
+export const List = ({ phones, searchRequest, sortFlow }) => {
   const [phonesToShow, setPhonesToShow] = useState(phones);
+
+  function sortByType(a, b) {
+    if (typeof(a[sortFlow]) === 'number') {
+      return a[sortFlow] - b[sortFlow];
+    } else {
+      return a[sortFlow].toLowerCase() > b[sortFlow].toLowerCase() ? 1 : -1;
+    }
+  }
 
   useEffect(() => {
     setPhonesToShow(
       phones.filter(
         phone => phone.name.toLowerCase().includes(searchRequest.toLowerCase())
-      )
+      ).sort((a, b) => sortByType(a,b))
     )
-  }, [phones, searchRequest]);
-
-  console.log(phonesToShow);
+  }, [phones, searchRequest, sortFlow]);
 
   return (
     <>

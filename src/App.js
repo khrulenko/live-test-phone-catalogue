@@ -9,7 +9,7 @@ import { List } from './components/List/List';
 function App() {
   const [phones, setPhones] = useState([]);
   const [searchRequest, setSearchRequest] = useState('');
-  const [sortFlow, setSortFlow] = useState('');
+  const [sortFlow, setSortFlow] = useState('name');
 
   useEffect(() => {
     getPhones().then(phones => setPhones(phones))
@@ -22,6 +22,7 @@ function App() {
           <section>
             <p>
               Search:
+              {' '}
               <input
                 type="text"
                 value={searchRequest}
@@ -33,7 +34,10 @@ function App() {
 
             <p>
               Sort by:
-              <select>
+              {' '}
+              <select
+                onChange={(event) => setSortFlow(event.target.value)}
+              >
                 <option value="name">Alphabetical</option>
                 <option value="age">Newest</option>
               </select>
@@ -56,6 +60,7 @@ function App() {
             <List
               phones={phones}
               searchRequest={searchRequest}
+              sortFlow={sortFlow}
             />
 
           </ul>
