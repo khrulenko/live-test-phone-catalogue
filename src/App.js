@@ -1,23 +1,35 @@
 import React, { useState, useEffect } from 'react';
 import { getPhones } from './fetches';
+import { ShoppingCart } from './components/ShoppingCart/ShoppingCart';
+import { List } from './components/List/List';
 
 import logo from './logo.svg';
 import './App.css';
 
-import { List } from './components/List/List';
 
 function App() {
   const [phones, setPhones] = useState([]);
   const [searchRequest, setSearchRequest] = useState('');
   const [sortFlow, setSortFlow] = useState('name');
+  const [shoppingCartContent, setShoppingCartContent] = useState([]);
 
   useEffect(() => {
     getPhones().then(phones => setPhones(phones))
   }, []);
 
+  function addToShoppingCart(newPhone) {
+    setShoppingCartContent([
+      ...shoppingCartContent,
+      newPhone,
+    ])
+  }
+
+  console.log(shoppingCartContent);
+
   return (
     <div className="container-fluid">
       <div className="row">
+
         <div className="col-md-2">
           <section>
             <p>
@@ -45,26 +57,32 @@ function App() {
           </section>
 
           <section>
-            <p>Shopping Cart</p>
-            <ul>
-              <li>Phone 1</li>
-              <li>Phone 2</li>
-              <li>Phone 3</li>
-            </ul>
+
+            <p>Shopping Cart:</p>
+            <ShoppingCart 
+              content={shoppingCartContent}
+            />
+            <button
+              type='button'
+              onClick={() => setShoppingCartContent([])}
+            >
+              Clear Shopping Cart
+            </button>
+
           </section>
         </div>
 
         <div className="col-md-10">
           <ul className="phones">
-
             <List
               phones={phones}
               searchRequest={searchRequest}
               sortFlow={sortFlow}
+              addToShoppingCart={addToShoppingCart}
             />
-
           </ul>
         </div>
+
       </div>
     </div>
   );

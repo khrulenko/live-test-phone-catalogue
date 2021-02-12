@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
 
-export const List = ({ phones, searchRequest, sortFlow }) => {
+export const List = ({
+  phones,
+  searchRequest,
+  sortFlow,
+  addToShoppingCart,
+}) => {
   const [phonesToShow, setPhonesToShow] = useState(phones);
 
   function sortByType(a, b) {
@@ -15,35 +20,38 @@ export const List = ({ phones, searchRequest, sortFlow }) => {
     setPhonesToShow(
       phones.filter(
         phone => phone.name.toLowerCase().includes(searchRequest.toLowerCase())
-      ).sort((a, b) => sortByType(a,b))
+      )
+      .sort((a, b) => sortByType(a,b))
     )
   }, [phones, searchRequest, sortFlow]);
 
   return (
-    <>
-      <ul className="phones">
-        {phonesToShow.map(phone => (
-          <li 
-            className="thumbnail"
-            key={phone.id}
-          >
-            <a href={`#!/phones/${phone.id}`} className="thumb">
-              <img alt={phone.id} src={phone.imageUrl} />
+    <ul className="phones">
+      {phonesToShow.map(phone => (
+        <li 
+          className="thumbnail"
+          key={phone.id}
+        >
+          <a href={`#!/phones/${phone.id}`} className="thumb">
+            <img alt={phone.id} src={phone.imageUrl} />
+          </a>
+
+          <div className="phones__btn-buy-wrapper">
+            <a
+              className="btn btn-success"
+              href="#buy"
+              onClick={() => addToShoppingCart(phone)}
+            >
+              Add
             </a>
+          </div>
 
-            <div className="phones__btn-buy-wrapper">
-              <a className="btn btn-success" href="#buy">
-                Add
-              </a>
-            </div>
-
-            <a href="#!/phones/motorola-xoom-with-wi-fi">{phone.name}</a>
-            <p>
-              {phone.snippet}
-            </p>
-          </li>
-        ))}
-      </ul>
-    </>
+          <a href="#!/phones/motorola-xoom-with-wi-fi">{phone.name}</a>
+          <p>
+            {phone.snippet}
+          </p>
+        </li>
+      ))}
+    </ul>
   )
 }
